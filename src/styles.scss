@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.glass-card:hover {
+  @apply bg-white/10 rounded-sm shadow-lg cursor-pointer backdrop-blur-lg transition-all duration-300;
+}

@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { Center } from './components/center/center';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [
+    Center
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

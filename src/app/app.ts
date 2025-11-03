@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Center } from './components/center/center';
-import { TopRow } from './components/top-row/top-row';
+import { Center } from './layout/center/center';
+import { TopRow } from './layout/top-row/top-row';
 
 @Component({
   selector: 'app-root',

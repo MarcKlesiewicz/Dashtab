@@ -1,8 +1,13 @@
-<main class="h-screen w-screen flex flex-col text-white main">
+<main class="h-screen w-screen flex flex-col text-white main" [class.main-focus]="focusMode()">
   <app-top-row></app-top-row>
 
   <div class="flex-1 flex items-center justify-center">
+    @if (focusMode()) {
+      <div class="radial-progress" style="--value:60;" aria-valuenow="60" role="progressbar">60%</div>
+    } @else {
+      
     <app-center></app-center>
+    }
   </div>
   <div class="flex w-screen p-4">
     <div class="flex-1 ">Bottom row left</div>

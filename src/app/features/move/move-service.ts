@@ -12,8 +12,8 @@ export interface MoveSession {
   pausedRemainingSeconds: number | null;
 }
 
-const sittingDurationSeconds = 5;
-const standingDurationSeconds = 5;
+const sittingDurationSeconds = 2 * 60 * 60;
+const standingDurationSeconds = 60 * 60;
 
 const defaultSession: MoveSession = {
   status: 'idle',

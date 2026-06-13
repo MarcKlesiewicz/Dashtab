@@ -1,4 +1,5 @@
-import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { MoveService } from '../../move/move-service';
 
 @Component({
   selector: 'app-greeting-widget',
@@ -7,9 +8,16 @@ import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 export class GreetingWidget implements OnInit, OnDestroy {
   readonly currentTime = signal(new Date());
 
+  private readonly moveService = inject(MoveService);
   private timerId?: number;
 
   readonly greeting = computed<string>(() => {
+    if (this.moveService.isAwaitingAck()) {
+      return this.moveService.phase() === 'sitting'
+        ? 'Time to move, Marc.'
+        : 'Time to sit down, Marc.';
+    }
+
     const hour = this.currentTime().getHours();
     if (hour < 12) {
       return 'Good morning, Marc.';

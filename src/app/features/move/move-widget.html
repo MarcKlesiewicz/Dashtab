@@ -1,23 +1,32 @@
 <button
-  class="glass-card flex flex-col p-2 items-center" popovertarget="move-popover" style="anchor-name:--anchor-1"
-  [class.animate-pulse]="awaitingAck()"
+  class="glass-card flex min-w-20 flex-col p-2 items-center"
+  popovertarget="move-popover"
+  style="anchor-name:--anchor-1"
+  [class.animate-pulse]="isAwaitingAck()"
+  [class.is-active]="isActive()"
 >
   <i
     class="fa-solid text-[28px]"
-    [class.fa-person-drowning]="isSitdown()"
-    [class.fa-person-walking]="!isSitdown()"
+    [class.fa-person]="phase() === 'sitting'"
+    [class.fa-person-walking]="phase() === 'standing'"
   ></i>
 
-  @if (countdownSeconds() > 0) {
-    <span>{{  hoursLeft() + 'h ' + minutesLeftPadded() + 'm'  }}</span>
-  } @else {
-    <span>Move</span>
-  }
+  <span>{{ label() }}</span>
 </button>
 <div class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm"
     popover id="move-popover" style="position-anchor:--anchor-1">
-  <button type="button" class="btn btn-soft btn-sm btn-wide" (click)="isRunning() ? stopMoveTimer() : startMoveTimer()">{{isRunning() ? 'Stop timer' : 'Start timer'}}</button>
-
+  <div class="px-2 py-1 text-sm opacity-70">
+    {{ phase() === 'sitting' ? 'Sitting phase' : 'Standing phase' }}
+  </div>
+  <progress class="progress progress-primary mb-2" max="100" [value]="progress()"></progress>
+  <button type="button" class="btn btn-soft btn-sm btn-wide" (click)="primaryAction()">
+    {{ actionLabel() }}
+  </button>
+  @if (status() !== 'idle') {
+    <button type="button" class="btn btn-ghost btn-sm btn-wide mt-2" (click)="resetSession()">
+      Reset
+    </button>
+  }
 </div>
 
 

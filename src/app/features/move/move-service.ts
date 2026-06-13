@@ -1,4 +1,5 @@
 import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
+import { SettingsService } from '../settings/settings-service';
 
 export type MovePhase = 'sitting' | 'standing';
 export type MoveStatus = 'idle' | 'running' | 'awaitingAck' | 'paused';
@@ -12,13 +13,10 @@ export interface MoveSession {
   pausedRemainingSeconds: number | null;
 }
 
-const sittingDurationSeconds = 2 * 60 * 60;
-const standingDurationSeconds = 60 * 60;
-
 const defaultSession: MoveSession = {
   status: 'idle',
   phase: 'sitting',
-  durationSeconds: sittingDurationSeconds,
+  durationSeconds: 120 * 60,
   startedAt: null,
   endsAt: null,
   pausedRemainingSeconds: null,
@@ -29,6 +27,7 @@ const defaultSession: MoveSession = {
 })
 export class MoveService {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly settingsService = inject(SettingsService);
   private readonly storageKey = 'move.session';
   private readonly now = signal(Date.now());
   private readonly sessionState = signal<MoveSession>(this.restoreSession());
@@ -303,6 +302,8 @@ export class MoveService {
   }
 
   private durationForPhase(phase: MovePhase): number {
-    return phase === 'sitting' ? sittingDurationSeconds : standingDurationSeconds;
+    return phase === 'sitting'
+      ? this.settingsService.sittingDurationSeconds()
+      : this.settingsService.standingDurationSeconds();
   }
 }

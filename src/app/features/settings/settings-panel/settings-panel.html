@@ -1,0 +1,66 @@
+<div class="settings-panel">
+  <button
+    type="button"
+    class="glass-card settings-panel__trigger"
+    [class.is-active]="isOpen()"
+    (click)="togglePanel()"
+    aria-label="Settings"
+  >
+    <i class="fa-solid fa-gear text-[24px]"></i>
+  </button>
+
+  @if (isOpen()) {
+    <section class="settings-panel__surface" aria-label="Dashboard settings">
+      <div class="settings-panel__header">
+        <div>
+          <h2>Settings</h2>
+          <p>{{ summary() }}</p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm btn-square" (click)="closePanel()" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <label class="settings-panel__field">
+        <span>Focus timer</span>
+        <input
+          class="input input-sm input-bordered"
+          type="number"
+          min="1"
+          max="180"
+          [value]="focusDurationMinutes()"
+          (input)="updateFocusDuration($event)"
+        />
+      </label>
+
+      <label class="settings-panel__field">
+        <span>Sitting timer</span>
+        <input
+          class="input input-sm input-bordered"
+          type="number"
+          min="1"
+          max="360"
+          [value]="sittingDurationMinutes()"
+          (input)="updateSittingDuration($event)"
+        />
+      </label>
+
+      <label class="settings-panel__field">
+        <span>Standing timer</span>
+        <input
+          class="input input-sm input-bordered"
+          type="number"
+          min="1"
+          max="180"
+          [value]="standingDurationMinutes()"
+          (input)="updateStandingDuration($event)"
+        />
+      </label>
+
+      <div class="settings-panel__actions">
+        <button type="button" class="btn btn-ghost btn-sm" (click)="resetSettings()">Reset</button>
+        <button type="button" class="btn btn-soft btn-sm" (click)="saveSettings()">Save</button>
+      </div>
+    </section>
+  }
+</div>

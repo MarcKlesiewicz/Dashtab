@@ -1,4 +1,5 @@
 import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
+import { SettingsService } from '../settings/settings-service';
 
 export type FocusStatus = 'idle' | 'running' | 'paused' | 'completed';
 
@@ -11,11 +12,10 @@ export interface FocusSession {
   pausedRemainingSeconds: number | null;
 }
 
-const defaultDurationSeconds = 25 * 60;
 const defaultSession: FocusSession = {
   status: 'idle',
   intention: '',
-  durationSeconds: defaultDurationSeconds,
+  durationSeconds: 25 * 60,
   startedAt: null,
   endsAt: null,
   pausedRemainingSeconds: null,
@@ -26,6 +26,7 @@ const defaultSession: FocusSession = {
 })
 export class FocusService {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly settingsService = inject(SettingsService);
   private readonly storageKey = 'focus.session';
   private readonly now = signal(Date.now());
   private readonly sessionState = signal<FocusSession>(this.restoreSession());
@@ -81,7 +82,7 @@ export class FocusService {
     this.tick();
   }
 
-  startSession(durationSeconds = defaultDurationSeconds): void {
+  startSession(durationSeconds = this.settingsService.focusDurationSeconds()): void {
     const now = Date.now();
     const previous = this.sessionState();
 
@@ -189,7 +190,7 @@ export class FocusService {
         durationSeconds:
           typeof session.durationSeconds === 'number'
             ? session.durationSeconds
-            : defaultDurationSeconds,
+            : this.settingsService.focusDurationSeconds(),
       };
 
       if (restored.status === 'running' && restored.endsAt && restored.endsAt <= Date.now()) {

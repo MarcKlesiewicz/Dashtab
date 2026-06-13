@@ -1,4 +1,13 @@
-<button type="button" class="flex flex-col items-center glass-card p-2" (click)="toggleFocusMode()">
-  <i class="fa-regular fa-lightbulb text-[28px]"></i>
-  <span>Focus</span>
+<button
+  type="button"
+  class="flex min-w-16 flex-col items-center glass-card p-2"
+  [class.is-active]="status() !== 'idle'"
+  (click)="handleClick()"
+>
+  <i
+    class="fa-lightbulb text-[28px]"
+    [class.fa-regular]="status() === 'idle'"
+    [class.fa-solid]="status() !== 'idle'"
+  ></i>
+  <span>{{ label() }}</span>
 </button>

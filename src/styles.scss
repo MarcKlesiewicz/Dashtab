@@ -4,3 +4,7 @@
 .glass-card:hover {
   @apply bg-white/10 rounded-sm shadow-lg cursor-pointer backdrop-blur-lg transition-all duration-300;
 }
+
+.glass-card.is-active {
+  @apply bg-white/15 rounded-sm shadow-lg backdrop-blur-lg;
+}

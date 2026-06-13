@@ -1,13 +1,41 @@
-<div [attr.aria-valuenow]="progress()" [attr.style]="'--value:' + progress() + '; --size:40rem; --thickness: 6px;'"
-     class="radial-progress" role="progressbar">
-  <div>
-    <div class="flex flex-col justify-center items-center h-full">
-      <span class="w-[320px] text-[120px] font-semibold text-center inline-block">
-  {{ minutes() + ':' + seconds() }}
-      </span>
-
-
-      <input class="input input-ghost text-4xl text-center" placeholder="I will focus on..." type="text"/>
+<section class="focus-session" [class.is-completed]="status() === 'completed'">
+  <div
+    [attr.aria-valuenow]="progress()"
+    [attr.style]="'--value:' + progress()"
+    class="radial-progress focus-session__progress"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div class="focus-session__content">
+      @if (status() === 'completed') {
+        <span class="focus-session__eyebrow">Session complete</span>
+        <h1 class="focus-session__done">Nice work.</h1>
+        @if (session().intention) {
+          <p class="focus-session__intention">{{ session().intention }}</p>
+        }
+      } @else {
+        <span class="focus-session__time">{{ displayTime() }}</span>
+        <input
+          class="input input-ghost focus-session__input"
+          placeholder="I will focus on..."
+          type="text"
+          [value]="session().intention"
+          (input)="updateIntention($event)"
+        />
+      }
     </div>
   </div>
-</div>
+
+  <div class="focus-session__actions" aria-label="Focus session controls">
+    @if (status() === 'completed') {
+      <button type="button" class="btn btn-ghost btn-sm" (click)="returnHome()">Close</button>
+    } @else {
+      <button type="button" class="btn btn-ghost btn-sm" (click)="cancelSession()">Cancel</button>
+      <button type="button" class="btn btn-soft btn-sm" (click)="togglePause()">
+        {{ status() === 'paused' ? 'Resume' : 'Pause' }}
+      </button>
+      <button type="button" class="btn btn-ghost btn-sm" (click)="finishSession()">Done</button>
+    }
+  </div>
+</section>

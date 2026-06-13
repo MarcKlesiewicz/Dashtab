@@ -1,48 +1,42 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FocusService } from '../focus-service';
 
 @Component({
   selector: 'app-active-focus',
   templateUrl: './active-focus.html',
+  styleUrl: './active-focus.scss',
 })
 export class ActiveFocus {
-  //TODO: Make duration configurable
-  readonly totalSeconds = 25 * 60;
-
-  readonly remainingSeconds = signal(this.totalSeconds);
-  readonly isRunning = signal(true);
-
-  readonly minutes = computed(() => Math.floor(this.remainingSeconds() / 60));
-  readonly seconds = computed(() => String(this.remainingSeconds() % 60).padStart(2, '0'));
-
-  readonly progress = computed(() => {
-    const completed = this.totalSeconds - this.remainingSeconds();
-    return Math.round((completed / this.totalSeconds) * 100);
-  });
-
   private readonly focusService = inject(FocusService);
 
-  constructor() {
-    effect(
-      (onCleanup) => {
-        if (!this.isRunning()) {
-          return;
-        }
+  readonly session = this.focusService.session;
+  readonly status = this.focusService.status;
+  readonly displayTime = this.focusService.displayTime;
+  readonly progress = this.focusService.progress;
 
-        const intervalId = setInterval(() => {
-          const current = this.remainingSeconds();
-          if (current > 0) {
-            this.remainingSeconds.set(current - 1);
-          }
-          if (current - 1 <= 0) {
-            this.isRunning.set(false);
-            this.focusService.toggleFocusMode();
-          }
-        }, 1000);
-
-        onCleanup(() => clearInterval(intervalId));
-      },
-    );
+  updateIntention(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.focusService.updateIntention(input.value);
   }
 
+  togglePause(): void {
+    if (this.focusService.isPaused()) {
+      this.focusService.resumeSession();
+      return;
+    }
+
+    this.focusService.pauseSession();
+  }
+
+  finishSession(): void {
+    this.focusService.completeSession();
+  }
+
+  cancelSession(): void {
+    this.focusService.cancelSession();
+  }
+
+  returnHome(): void {
+    this.focusService.returnHome();
+  }
 }

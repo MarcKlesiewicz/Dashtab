@@ -1,0 +1,73 @@
+.focus-session {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.focus-session__progress {
+  --size: min(40rem, calc(100vw - 2rem), calc(100vh - 11rem));
+  --thickness: 6px;
+}
+
+.focus-session__content {
+  display: flex;
+  width: min(34rem, calc(100vw - 3rem));
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.focus-session__time {
+  display: inline-block;
+  width: min(26rem, 100%);
+  text-align: center;
+  font-size: clamp(4.5rem, 13vw, 7.5rem);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.focus-session__input {
+  width: min(32rem, 100%);
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.focus-session__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0.82;
+  transition: opacity 200ms ease;
+}
+
+.focus-session__actions:hover,
+.focus-session__actions:focus-within {
+  opacity: 1;
+}
+
+.focus-session__eyebrow {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.focus-session__done {
+  margin: 0.25rem 0 0;
+  font-size: clamp(3rem, 9vw, 5.5rem);
+  font-weight: 650;
+  line-height: 1;
+}
+
+.focus-session__intention {
+  margin-top: 1rem;
+  max-width: min(28rem, 100%);
+  text-align: center;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  opacity: 0.8;
+}

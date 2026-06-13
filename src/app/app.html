@@ -1,12 +1,13 @@
 <main [class.main-focus]="focusMode()" class="h-screen w-screen flex flex-col text-white main">
   <app-top-row></app-top-row>
 
-  <div class="flex-1 flex items-center justify-center">
-    @if (focusMode()) {
-      <app-active-focus></app-active-focus>
-    } @else {
+  <div class="view-stage flex-1">
+    <div class="view-panel" [class.is-visible]="!focusMode()" [attr.aria-hidden]="focusMode()">
       <app-center></app-center>
-    }
+    </div>
+    <div class="view-panel" [class.is-visible]="focusMode()" [attr.aria-hidden]="!focusMode()">
+      <app-active-focus></app-active-focus>
+    </div>
   </div>
   <div class="flex w-screen p-4">
     <div class="flex-1 ">Bottom row left</div>

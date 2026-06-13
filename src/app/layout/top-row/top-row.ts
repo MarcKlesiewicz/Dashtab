@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MoveWidget } from '../../components/move-widget/move-widget';
-import { FocusWidget } from '../../components/focus/focus-widget/focus-widget';
+import { MoveWidget } from '../../features/move/move-widget';
+import { FocusWidget } from '../../features/focus/focus-widget/focus-widget';
 
 @Component({
   selector: 'app-top-row',

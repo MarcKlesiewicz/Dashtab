@@ -1,11 +1,6 @@
 <div class="flex flex-col justify-center items-center">
-  <span class="countdown text-[152px] font-semibold">
-  <span [attr.style]="'--value:' + hours()" aria-label="{{ hours() }}" aria-live="polite"></span>
-  :
-  <span [attr.style]="'--value:' + minutes() + '; --digits: 2;'" aria-label="{{ minutes() }}"
-        aria-live="polite"></span>
-  </span>
-  <p class="text-[64px] font-medium">{{ greeting() }}</p>
+  <app-clock-widget></app-clock-widget>
+  <app-greeting-widget></app-greeting-widget>
 </div>
 
 

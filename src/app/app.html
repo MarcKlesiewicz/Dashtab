@@ -1,20 +1,6 @@
 <main [class.main-focus]="focusMode()" class="h-screen w-screen flex flex-col text-white main">
   <app-top-row></app-top-row>
 
-  <div class="view-stage flex-1">
-    <div class="view-panel" [class.is-visible]="!focusMode()" [attr.aria-hidden]="focusMode()">
-      <app-center></app-center>
-    </div>
-    <div class="view-panel" [class.is-visible]="focusMode()" [attr.aria-hidden]="!focusMode()">
-      <app-active-focus></app-active-focus>
-    </div>
-  </div>
-  <div class="flex w-screen p-4">
-    <div class="flex-1">
-      <app-settings-panel></app-settings-panel>
-    </div>
-    <div class="flex-1 flex items-center justify-end ">
-      Bottom row right
-    </div>
-  </div>
+  <app-main-area class="flex-1"></app-main-area>
+  <app-bottom-row></app-bottom-row>
 </main>

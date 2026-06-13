@@ -1,0 +1,14 @@
+<div class="main-area">
+  <aside class="main-area__left" aria-label="Left dashboard area"></aside>
+
+  <section class="view-stage" aria-label="Primary dashboard view">
+    <div class="view-panel" [class.is-visible]="!focusMode()" [attr.aria-hidden]="focusMode()">
+      <app-center></app-center>
+    </div>
+    <div class="view-panel" [class.is-visible]="focusMode()" [attr.aria-hidden]="!focusMode()">
+      <app-active-focus></app-active-focus>
+    </div>
+  </section>
+
+  <aside class="main-area__right" aria-hidden="true"></aside>
+</div>

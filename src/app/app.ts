@@ -1,17 +1,15 @@
 import { Component, computed, inject } from '@angular/core';
-import { Center } from './layout/center/center';
 import { TopRow } from './layout/top-row/top-row';
+import { BottomRow } from './layout/bottom-row/bottom-row';
 import { FocusService } from './features/focus/focus-service';
-import { ActiveFocus } from './features/focus/active-focus/active-focus';
-import { SettingsPanel } from './features/settings/settings-panel/settings-panel';
+import { MainArea } from './layout/main-area/main-area';
 
 @Component({
   selector: 'app-root',
   imports: [
-    Center,
     TopRow,
-    ActiveFocus,
-    SettingsPanel
+    BottomRow,
+    MainArea,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

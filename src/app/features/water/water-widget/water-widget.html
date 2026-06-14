@@ -1,0 +1,27 @@
+<section class="flex h-full min-h-0 flex-col items-center justify-center gap-5 py-4 pr-8 pl-4 text-white" aria-label="Water intake">
+  <div class="flex flex-col items-center text-center">
+    <span class="mb-2 text-xs font-bold uppercase tracking-[0.14em] opacity-70">Water</span>
+    <strong class="text-3xl font-semibold leading-none">{{ levelMl() }}ml</strong>
+    <span class="mt-1 text-xs opacity-70">{{ consumedMl() }}ml logged</span>
+  </div>
+
+  <div class="water-widget__meter" aria-hidden="true">
+    <div class="water-widget__mark water-widget__mark--750">
+      <span></span>
+      <small>750</small>
+    </div>
+    <div class="water-widget__mark water-widget__mark--500">
+      <span></span>
+      <small>500</small>
+    </div>
+    <div class="water-widget__mark water-widget__mark--250">
+      <span></span>
+      <small>250</small>
+    </div>
+    <div class="water-widget__fill" [class.water-widget__fill--waiting]="isWaiting()" [style.height.%]="levelPercent()"></div>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-2">
+    <button type="button" class="btn btn-ghost btn-sm" (click)="logWater()">+{{ drinkStepMl }}ml</button>
+  </div>
+</section>

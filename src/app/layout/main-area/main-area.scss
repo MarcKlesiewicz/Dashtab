@@ -10,6 +10,14 @@
   @apply min-w-0;
 }
 
+.main-area__left {
+  @apply flex items-stretch justify-start;
+}
+
+.main-area__left app-water-widget {
+  @apply block h-full;
+}
+
 .view-stage {
   @apply relative grid min-w-0 place-items-center overflow-hidden;
 }

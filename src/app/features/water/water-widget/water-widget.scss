@@ -1,0 +1,80 @@
+.water-widget__meter {
+  position: relative;
+  height: min(28rem, 62vh);
+  width: 3.5rem;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 10%);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(12px);
+}
+
+.water-widget__fill {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-bottom-right-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  background: rgb(103 232 249 / 80%);
+  box-shadow: inset 0 1.5rem 2rem rgb(255 255 255 / 20%);
+  transition: height 700ms ease-out;
+}
+
+.water-widget__fill--waiting {
+  animation: water-waiting-pulse 1.4s ease-in-out infinite;
+}
+
+.water-widget__mark {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: rgb(255 255 255 / 75%);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.water-widget__mark span {
+  height: 1px;
+  flex: 1;
+  background: rgb(255 255 255 / 55%);
+}
+
+.water-widget__mark small {
+  width: 1.75rem;
+  text-align: left;
+}
+
+.water-widget__mark--750 {
+  top: 25%;
+}
+
+.water-widget__mark--500 {
+  top: 50%;
+}
+
+.water-widget__mark--250 {
+  top: 75%;
+}
+
+@keyframes water-waiting-pulse {
+  0%,
+  100% {
+    background: rgb(103 232 249 / 80%);
+    box-shadow: inset 0 1.5rem 2rem rgb(255 255 255 / 20%);
+    opacity: 1;
+  }
+
+  50% {
+    background: rgb(125 211 252 / 95%);
+    box-shadow:
+      inset 0 1.5rem 2rem rgb(255 255 255 / 24%),
+      0 0 1.25rem rgb(103 232 249 / 45%);
+    opacity: 0.42;
+  }
+}

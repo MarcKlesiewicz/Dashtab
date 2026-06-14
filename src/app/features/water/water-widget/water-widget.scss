@@ -1,13 +1,65 @@
+.water-widget {
+  --meter-width: 1.25rem;
+  gap: 0.5rem;
+  transition: gap 360ms ease;
+}
+
+.water-widget:hover,
+.water-widget:focus-within {
+  --meter-width: 3.5rem;
+  gap: 1.25rem;
+}
+
+.water-widget__details {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-0.35rem);
+  transition:
+    max-height 360ms ease,
+    opacity 220ms ease,
+    transform 360ms ease;
+}
+
+.water-widget:hover .water-widget__details,
+.water-widget:focus-within .water-widget__details {
+  max-height: 7rem;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.water-widget__compact-icon {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  color: white;
+  font-size: 1.25rem;
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 220ms ease,
+    transform 360ms ease;
+}
+
+.water-widget:hover .water-widget__compact-icon,
+.water-widget:focus-within .water-widget__compact-icon {
+  opacity: 0;
+  transform: translateX(0.35rem);
+}
+
 .water-widget__meter {
   position: relative;
   height: min(28rem, 62vh);
-  width: 3.5rem;
+  width: var(--meter-width);
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 9999px;
   background: rgb(255 255 255 / 10%);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
   backdrop-filter: blur(12px);
+  transition: width 360ms ease;
 }
 
 .water-widget__fill {
@@ -42,12 +94,26 @@
 .water-widget__mark span {
   height: 1px;
   flex: 1;
-  background: rgb(255 255 255 / 55%);
+  background: rgb(255 255 255 / 65%);
 }
 
 .water-widget__mark small {
-  width: 1.75rem;
+  width: 0;
+  overflow: hidden;
   text-align: left;
+  opacity: 0;
+  transform: translateX(-0.25rem);
+  transition:
+    width 360ms ease,
+    opacity 220ms ease,
+    transform 360ms ease;
+}
+
+.water-widget:hover .water-widget__mark small,
+.water-widget:focus-within .water-widget__mark small {
+  width: 1.75rem;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .water-widget__mark--750 {
@@ -61,7 +127,6 @@
 .water-widget__mark--250 {
   top: 75%;
 }
-
 @keyframes water-waiting-pulse {
   0%,
   100% {

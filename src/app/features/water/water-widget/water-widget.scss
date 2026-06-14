@@ -57,7 +57,9 @@
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 9999px;
   background: rgb(255 255 255 / 10%);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
   backdrop-filter: blur(12px);
   transition: width 360ms ease;
 }

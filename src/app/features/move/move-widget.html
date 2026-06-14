@@ -1,7 +1,7 @@
 <button
   class="glass-card flex min-w-20 flex-col p-2 items-center"
   popovertarget="move-popover"
-  style="anchor-name:--anchor-1"
+  style="anchor-name: --anchor-1"
   [class.animate-pulse]="isAwaitingAck()"
   [class.is-active]="isActive()"
 >
@@ -13,8 +13,12 @@
 
   <span>{{ label() }}</span>
 </button>
-<div class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm"
-    popover id="move-popover" style="position-anchor:--anchor-1">
+<div
+  class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm"
+  popover
+  id="move-popover"
+  style="position-anchor: --anchor-1"
+>
   <div class="px-2 py-1 text-sm opacity-70">
     {{ phase() === 'sitting' ? 'Sitting phase' : 'Standing phase' }}
   </div>
@@ -28,6 +32,3 @@
     </button>
   }
 </div>
-
-
-

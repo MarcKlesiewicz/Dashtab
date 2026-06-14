@@ -1,4 +1,7 @@
-<section class="water-widget flex h-full min-h-0 flex-col items-center justify-center gap-4 py-4 pr-8 pl-4 text-white" aria-label="Water intake">
+<section
+  class="water-widget flex h-full min-h-0 flex-col items-center justify-center gap-4 py-4 pr-8 pl-4 text-white"
+  aria-label="Water intake"
+>
   <div class="water-widget__compact-icon">
     <i class="fa-solid fa-droplet"></i>
   </div>
@@ -22,10 +25,16 @@
       <span></span>
       <small>250</small>
     </div>
-    <div class="water-widget__fill" [class.water-widget__fill--waiting]="isWaiting()" [style.height.%]="levelPercent()"></div>
+    <div
+      class="water-widget__fill"
+      [class.water-widget__fill--waiting]="isWaiting()"
+      [style.height.%]="levelPercent()"
+    ></div>
   </div>
 
   <div class="water-widget__details flex flex-wrap justify-center gap-2">
-    <button type="button" class="btn btn-ghost btn-sm" (click)="logWater()">+{{ drinkStepMl }}ml</button>
+    <button type="button" class="btn btn-ghost btn-sm" (click)="logWater()">
+      +{{ drinkStepMl }}ml
+    </button>
   </div>
 </section>

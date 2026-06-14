@@ -69,7 +69,9 @@ export class FocusService {
 
   readonly displayTime = computed(() => {
     const remaining = this.remainingSeconds();
-    const minutes = Math.floor(remaining / 60).toString().padStart(2, '0');
+    const minutes = Math.floor(remaining / 60)
+      .toString()
+      .padStart(2, '0');
     const seconds = (remaining % 60).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
   });

@@ -6,17 +6,12 @@ import { MainArea } from './layout/main-area/main-area';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    TopRow,
-    BottomRow,
-    MainArea,
-  ],
+  imports: [TopRow, BottomRow, MainArea],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   focusMode = computed(() => this.focusService.inFocusMode());
-
 
   private readonly focusService = inject(FocusService);
 }

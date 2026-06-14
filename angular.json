@@ -77,6 +77,12 @@
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"
         },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
         "test": {
           "builder": "@angular/build:karma",
           "options": {
@@ -88,9 +94,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           }
         }
       }

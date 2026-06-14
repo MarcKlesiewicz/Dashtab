@@ -5,20 +5,22 @@ main {
 }
 
 main::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("https://images.unsplash.com/photo-1548354911-457c10eaf236?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1812");
+  background-image: url('https://images.unsplash.com/photo-1548354911-457c10eaf236?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1812');
   background-repeat: no-repeat;
   background-size: cover;
-  transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1), filter 2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 2s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 2s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, filter;
-  filter: none
+  filter: none;
 }
 
 .main-focus::before {
-  transform: scale(1.10);
+  transform: scale(1.1);
   filter: blur(8px) brightness(0.9);
 }
 

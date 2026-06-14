@@ -5,11 +5,6 @@ import { FocusWidget } from '../../features/focus/focus-widget/focus-widget';
 @Component({
   selector: 'app-top-row',
   templateUrl: './top-row.html',
-  imports: [
-    MoveWidget,
-    FocusWidget
-  ]
+  imports: [MoveWidget, FocusWidget],
 })
-export class TopRow {
-
-}
+export class TopRow {}

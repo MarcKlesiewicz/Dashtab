@@ -1,7 +1,11 @@
 <div class="flex justify-between p-4">
   <div class="flex gap-4">
     <app-focus-widget></app-focus-widget>
-    <app-move-widget></app-move-widget>
+    @if (!focusMode()) {
+      <app-move-widget></app-move-widget>
+    }
   </div>
-  <app-weather-widget></app-weather-widget>
+  @if (!focusMode()) {
+    <app-weather-widget></app-weather-widget>
+  }
 </div>

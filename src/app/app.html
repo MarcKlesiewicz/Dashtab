@@ -2,5 +2,7 @@
   <app-top-row></app-top-row>
 
   <app-main-area class="flex-1"></app-main-area>
-  <app-bottom-row></app-bottom-row>
+  @if (!focusMode()) {
+    <app-bottom-row></app-bottom-row>
+  }
 </main>

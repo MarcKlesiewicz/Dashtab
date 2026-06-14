@@ -3,11 +3,17 @@
 .main-area {
   @apply grid h-full w-full items-stretch;
   grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr) minmax(12rem, 1fr);
+  transition: grid-template-columns 520ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 .main-area__left,
 .main-area__right {
   @apply min-w-0;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 220ms ease,
+    visibility 0ms linear 0ms;
 }
 
 .main-area__left {
@@ -16,6 +22,20 @@
 
 .main-area__left app-water-widget {
   @apply block h-full;
+}
+
+.main-area.is-focus-mode {
+  grid-template-columns: 0 minmax(0, 1fr) 0;
+}
+
+.main-area.is-focus-mode .main-area__left,
+.main-area.is-focus-mode .main-area__right {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 180ms ease,
+    visibility 0ms linear 180ms;
 }
 
 .view-stage {

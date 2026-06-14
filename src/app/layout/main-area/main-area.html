@@ -1,5 +1,5 @@
-<div class="main-area">
-  <aside class="main-area__left" aria-label="Left dashboard area">
+<div class="main-area" [class.is-focus-mode]="focusMode()">
+  <aside class="main-area__left" aria-label="Left dashboard area" [attr.aria-hidden]="focusMode()">
     <app-water-widget></app-water-widget>
   </aside>
 

@@ -1,0 +1,18 @@
+.weather-widget {
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 10%);
+  backdrop-filter: blur(10px);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.weather-widget:hover,
+.weather-widget:focus-within {
+  background: rgb(255 255 255 / 12%);
+  border-color: rgb(255 255 255 / 18%);
+  box-shadow: 0 10px 20px rgb(0 0 0 / 12%);
+  transform: translateY(-1px);
+}

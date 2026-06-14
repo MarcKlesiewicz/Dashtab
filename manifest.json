@@ -6,5 +6,6 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["storage", "identity"]
+  "permissions": ["storage", "identity"],
+  "host_permissions": ["https://api.open-meteo.com/*"]
 }

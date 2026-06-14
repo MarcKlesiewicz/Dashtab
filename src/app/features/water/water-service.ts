@@ -15,7 +15,7 @@ interface WaterState {
 const targetMl = 1000;
 const segmentMl = 250;
 const dayStartHour = 8;
-const dayEndHour = 22;
+const dayEndHour = 16;
 const segmentDurationMs = ((dayEndHour - dayStartHour) * 60 * 60 * 1000) / (targetMl / segmentMl);
 
 const defaultState = (dateKey: string): WaterState => ({

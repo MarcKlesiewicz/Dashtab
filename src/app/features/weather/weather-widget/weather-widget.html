@@ -1,0 +1,38 @@
+<section
+  class="weather-widget glass-card min-w-36 rounded-sm px-3 py-2 text-white"
+  aria-label="Weather. Click to switch location."
+  role="button"
+  tabindex="0"
+  (click)="toggleLocation()"
+  (keydown.enter)="toggleLocation()"
+  (keydown.space)="$event.preventDefault(); toggleLocation()"
+>
+  <div class="flex items-center gap-3">
+    <i class="fa-solid text-2xl {{ iconClass() }}"></i>
+
+    @if (weather(); as currentWeather) {
+      <div class="min-w-0 flex-1 text-right">
+        <div class="text-2xl font-semibold leading-none">{{ currentWeather.temperatureC }}°</div>
+        <div class="mt-1 text-xs leading-tight opacity-75">
+          {{ condition() }} · feels {{ currentWeather.apparentTemperatureC }}°
+        </div>
+        <div class="text-[0.68rem] leading-tight opacity-55">
+          {{ currentWeather.locationName }}
+        </div>
+      </div>
+    } @else {
+      <div class="min-w-0 flex-1 text-right">
+        <div class="text-sm font-semibold leading-tight">
+          {{ hasError() ? 'Weather unavailable' : 'Loading weather' }}
+        </div>
+        <button
+          type="button"
+          class="mt-1 text-xs opacity-70 transition hover:opacity-100"
+          (click)="$event.stopPropagation(); refreshWeather()"
+        >
+          Retry
+        </button>
+      </div>
+    }
+  </div>
+</section>

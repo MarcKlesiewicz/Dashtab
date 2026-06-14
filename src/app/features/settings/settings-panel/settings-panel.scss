@@ -1,59 +1,38 @@
+@reference "../../../../styles.scss";
+
 .settings-panel {
-  position: relative;
+  @apply relative;
 }
 
 .settings-panel__trigger {
-  display: grid;
-  width: 3rem;
-  height: 3rem;
-  place-items: center;
+  @apply grid h-12 w-12 place-items-center;
 }
 
 .settings-panel__surface {
-  position: absolute;
+  @apply absolute left-0 rounded-lg border border-white/15 p-4 backdrop-blur-[18px];
   bottom: calc(100% + 0.75rem);
-  left: 0;
   width: min(22rem, calc(100vw - 2rem));
-  padding: 1rem;
-  border: 1px solid rgb(255 255 255 / 14%);
-  border-radius: 0.5rem;
   background: rgb(15 15 18 / 82%);
   box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%);
-  backdrop-filter: blur(18px);
 }
 
 .settings-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  @apply mb-4 flex items-start justify-between gap-4;
 }
 
 .settings-panel__header h2 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
+  @apply m-0 text-base font-bold;
 }
 
 .settings-panel__header p {
-  margin: 0.125rem 0 0;
-  font-size: 0.75rem;
-  opacity: 0.68;
+  @apply m-0 mt-0.5 text-xs opacity-[0.68];
 }
 
 .settings-panel__field {
-  display: grid;
+  @apply mt-3 grid items-center gap-3 text-sm;
   grid-template-columns: 1fr 7rem;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
 }
 
 .settings-panel__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  @apply mt-4 flex justify-end gap-2;
 }

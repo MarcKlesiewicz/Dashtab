@@ -1,32 +1,21 @@
+@reference "../../../styles.scss";
+
 .main-area {
-  display: grid;
-  width: 100%;
-  height: 100%;
+  @apply grid h-full w-full items-stretch;
   grid-template-columns: minmax(12rem, 1fr) minmax(0, 2fr) minmax(12rem, 1fr);
-  align-items: stretch;
 }
 
 .main-area__left,
 .main-area__right {
-  min-width: 0;
+  @apply min-w-0;
 }
 
 .view-stage {
-  position: relative;
-  display: grid;
-  min-width: 0;
-  place-items: center;
-  overflow: hidden;
+  @apply relative grid min-w-0 place-items-center overflow-hidden;
 }
 
 .view-panel {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
+  @apply absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none;
   transform: scale(0.985) translateY(0.5rem);
   filter: blur(6px);
   transition:
@@ -36,9 +25,7 @@
 }
 
 .view-panel.is-visible {
-  opacity: 1;
-  pointer-events: auto;
-  transform: scale(1) translateY(0);
+  @apply opacity-100 pointer-events-auto scale-100 translate-y-0;
   filter: blur(0);
 }
 

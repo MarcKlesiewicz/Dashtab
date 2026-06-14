@@ -1,6 +1,7 @@
+@reference "../styles.scss";
+
 main {
-  position: relative;
-  overflow: hidden;
+  @apply relative overflow-hidden;
 }
 
 main::before {
@@ -22,6 +23,5 @@ main::before {
 }
 
 main > * {
-  position: relative;
-  z-index: 1;
+  @apply relative z-[1];
 }

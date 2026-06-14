@@ -1,8 +1,7 @@
+@reference "../../../../styles.scss";
+
 .focus-session {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  @apply flex flex-col items-center gap-6;
 }
 
 .focus-session__progress {
@@ -11,37 +10,24 @@
 }
 
 .focus-session__content {
-  display: flex;
+  @apply flex h-full flex-col items-center justify-center;
   width: min(34rem, calc(100vw - 3rem));
-  height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .focus-session__time {
-  display: inline-block;
+  @apply inline-block text-center font-semibold leading-none tabular-nums;
   width: min(26rem, 100%);
-  text-align: center;
   font-size: clamp(4.5rem, 13vw, 7.5rem);
-  font-weight: 600;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
 }
 
 .focus-session__input {
+  @apply text-center;
   width: min(32rem, 100%);
-  text-align: center;
   font-size: clamp(1.5rem, 4vw, 2.25rem);
 }
 
 .focus-session__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  opacity: 0.82;
-  transition: opacity 200ms ease;
+  @apply flex flex-wrap justify-center gap-2 opacity-[0.82] transition-opacity duration-200;
 }
 
 .focus-session__actions:hover,
@@ -50,24 +36,16 @@
 }
 
 .focus-session__eyebrow {
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  opacity: 0.72;
+  @apply text-sm font-bold uppercase tracking-[0.12em] opacity-[0.72];
 }
 
 .focus-session__done {
-  margin: 0.25rem 0 0;
+  @apply m-0 mt-1 font-semibold leading-none;
   font-size: clamp(3rem, 9vw, 5.5rem);
-  font-weight: 650;
-  line-height: 1;
 }
 
 .focus-session__intention {
-  margin-top: 1rem;
+  @apply mt-4 text-center opacity-80;
   max-width: min(28rem, 100%);
-  text-align: center;
   font-size: clamp(1.25rem, 3vw, 1.75rem);
-  opacity: 0.8;
 }

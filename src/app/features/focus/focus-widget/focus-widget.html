@@ -1,11 +1,11 @@
 <button
   type="button"
-  class="flex min-w-16 flex-col items-center glass-card p-2"
+  class="glass-card flex min-w-14 flex-col items-center p-1.5 text-xs"
   [class.is-active]="status() !== 'idle'"
   (click)="handleClick()"
 >
   <i
-    class="fa-lightbulb text-[28px]"
+    class="fa-lightbulb text-2xl"
     [class.fa-regular]="status() === 'idle'"
     [class.fa-solid]="status() !== 'idle'"
   ></i>

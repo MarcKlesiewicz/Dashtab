@@ -1,12 +1,12 @@
 <button
-  class="glass-card flex min-w-20 flex-col p-2 items-center"
+  class="glass-card flex min-w-16 flex-col items-center p-1.5 text-xs"
   popovertarget="move-popover"
   style="anchor-name: --anchor-1"
   [class.animate-pulse]="isAwaitingAck()"
   [class.is-active]="isActive()"
 >
   <i
-    class="fa-solid text-[28px]"
+    class="fa-solid text-2xl"
     [class.fa-person]="phase() === 'sitting'"
     [class.fa-person-walking]="phase() === 'standing'"
   ></i>

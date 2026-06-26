@@ -1,12 +1,18 @@
 import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 type WeatherStatus = 'loading' | 'ready' | 'error';
-export type WeatherLocationId = 'odense' | 'loegeskov';
+type LocationStatus = 'locating' | 'located' | 'fallback';
 
 interface WeatherCache {
   fetchedAt: number;
-  locationId: WeatherLocationId;
+  locationKey: string;
   weather: WeatherSnapshot;
+}
+
+interface CachedDeviceLocation {
+  latitude: number;
+  longitude: number;
+  storedAt: number;
 }
 
 export interface WeatherSnapshot {
@@ -31,30 +37,19 @@ interface OpenMeteoResponse {
 }
 
 interface WeatherLocation {
-  id: WeatherLocationId;
   name: string;
   latitude: number;
   longitude: number;
 }
 
-const weatherLocations: WeatherLocation[] = [
-  {
-    id: 'odense',
-    name: 'Odense',
-    latitude: 55.399,
-    longitude: 10.392,
-  },
-  {
-    id: 'loegeskov',
-    name: 'Løgeskov',
-    latitude: 55.14692,
-    longitude: 10.46673,
-  },
-];
-
-const defaultLocationId: WeatherLocationId = 'odense';
+const fallbackLocation: WeatherLocation = {
+  name: 'Odense',
+  latitude: 55.399,
+  longitude: 10.392,
+};
 
 const cacheMaxAgeMs = 15 * 60 * 1000;
+const locationMaxAgeMs = 12 * 60 * 60 * 1000;
 const refreshIntervalMs = 15 * 60 * 1000;
 
 @Injectable({
@@ -63,17 +58,21 @@ const refreshIntervalMs = 15 * 60 * 1000;
 export class WeatherService {
   private readonly destroyRef = inject(DestroyRef);
   private readonly storageKey = 'weather.current';
-  private readonly locationStorageKey = 'weather.location';
-  private readonly locationIdState = signal<WeatherLocationId>(this.restoreLocationId());
+  private readonly locationStorageKey = 'weather.deviceLocation';
+  private readonly locationState = signal<WeatherLocation>(
+    this.restoreDeviceLocation() ?? fallbackLocation,
+  );
+  private readonly locationStatusState = signal<LocationStatus>(
+    this.restoreDeviceLocation() ? 'located' : 'locating',
+  );
   private readonly statusState = signal<WeatherStatus>('loading');
   private readonly weatherState = signal<WeatherSnapshot | null>(
-    this.restoreCache(this.locationIdState()),
+    this.restoreCache(this.locationKey(this.locationState())),
   );
   private readonly refreshId = window.setInterval(() => void this.refresh(), refreshIntervalMs);
 
-  readonly locations = weatherLocations;
-  readonly locationId = computed(() => this.locationIdState());
-  readonly currentLocation = computed(() => this.findLocation(this.locationId()));
+  readonly currentLocation = computed(() => this.locationState());
+  readonly locationStatus = computed(() => this.locationStatusState());
   readonly weather = computed(() => this.weatherState());
   readonly status = computed(() => (this.weather() ? 'ready' : this.statusState()));
   readonly isLoading = computed(() => this.status() === 'loading');
@@ -88,38 +87,31 @@ export class WeatherService {
       this.statusState.set('ready');
     }
 
-    void this.refresh();
+    void this.initializeLocation();
   }
 
   refreshNow(): void {
-    void this.refresh(true);
+    void this.initializeLocation(true);
   }
 
-  selectLocation(locationId: WeatherLocationId): void {
-    if (locationId === this.locationId()) {
-      return;
+  private async initializeLocation(forceLocation = false): Promise<void> {
+    const deviceLocation = await this.getDeviceLocation(forceLocation);
+
+    if (deviceLocation) {
+      this.setLocation(deviceLocation, 'located');
+    } else if (this.locationStatus() !== 'located') {
+      this.setLocation(fallbackLocation, 'fallback');
     }
 
-    this.locationIdState.set(locationId);
-    this.persistLocationId(locationId);
-    this.weatherState.set(this.restoreCache(locationId));
-    this.statusState.set(this.weatherState() ? 'ready' : 'loading');
-    void this.refresh();
-  }
-
-  toggleLocation(): void {
-    const currentIndex = weatherLocations.findIndex(
-      (location) => location.id === this.locationId(),
-    );
-    const nextLocation = weatherLocations[(currentIndex + 1) % weatherLocations.length];
-
-    this.selectLocation(nextLocation.id);
+    void this.refresh(forceLocation);
   }
 
   private async refresh(force = false): Promise<void> {
     const location = this.currentLocation();
+    const locationKey = this.locationKey(location);
     const cached = this.weatherState();
-    if (!force && cached && this.isCacheFresh(location.id)) {
+
+    if (!force && cached && this.isCacheFresh(locationKey)) {
       this.statusState.set('ready');
       return;
     }
@@ -129,8 +121,7 @@ export class WeatherService {
     }
 
     try {
-      const url = this.buildUrl(location);
-      const response = await fetch(url);
+      const response = await fetch(this.buildUrl(location));
 
       if (!response.ok) {
         throw new Error(`Weather request failed with ${response.status}`);
@@ -141,10 +132,54 @@ export class WeatherService {
 
       this.weatherState.set(weather);
       this.statusState.set('ready');
-      this.persistCache(location.id, weather);
+      this.persistCache(locationKey, weather);
     } catch {
       this.statusState.set(cached ? 'ready' : 'error');
     }
+  }
+
+  private setLocation(location: WeatherLocation, status: LocationStatus): void {
+    const nextLocationKey = this.locationKey(location);
+
+    if (nextLocationKey !== this.locationKey(this.locationState())) {
+      this.weatherState.set(this.restoreCache(nextLocationKey));
+      this.statusState.set(this.weatherState() ? 'ready' : 'loading');
+    }
+
+    this.locationState.set(location);
+    this.locationStatusState.set(status);
+  }
+
+  private getDeviceLocation(force = false): Promise<WeatherLocation | null> {
+    if (!('geolocation' in navigator)) {
+      return Promise.resolve(null);
+    }
+
+    const cachedLocation = this.restoreDeviceLocation();
+    if (!force && cachedLocation) {
+      return Promise.resolve(cachedLocation);
+    }
+
+    return new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location: WeatherLocation = {
+            name: 'Current location',
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+
+          this.persistDeviceLocation(location);
+          resolve(location);
+        },
+        () => resolve(cachedLocation),
+        {
+          enableHighAccuracy: false,
+          maximumAge: locationMaxAgeMs,
+          timeout: 7000,
+        },
+      );
+    });
   }
 
   private buildUrl(location: WeatherLocation): string {
@@ -169,7 +204,7 @@ export class WeatherService {
     };
   }
 
-  private restoreCache(locationId: WeatherLocationId): WeatherSnapshot | null {
+  private restoreCache(locationKey: string): WeatherSnapshot | null {
     try {
       const stored = localStorage.getItem(this.storageKey);
       if (!stored) {
@@ -181,7 +216,7 @@ export class WeatherService {
         return null;
       }
 
-      if (cache.locationId !== locationId) {
+      if (cache.locationKey !== locationKey) {
         return null;
       }
 
@@ -191,11 +226,11 @@ export class WeatherService {
     }
   }
 
-  private persistCache(locationId: WeatherLocationId, weather: WeatherSnapshot): void {
+  private persistCache(locationKey: string, weather: WeatherSnapshot): void {
     try {
       const cache: WeatherCache = {
         fetchedAt: Date.now(),
-        locationId,
+        locationKey,
         weather,
       };
       localStorage.setItem(this.storageKey, JSON.stringify(cache));
@@ -204,7 +239,7 @@ export class WeatherService {
     }
   }
 
-  private isCacheFresh(locationId: WeatherLocationId): boolean {
+  private isCacheFresh(locationKey: string): boolean {
     try {
       const stored = localStorage.getItem(this.storageKey);
       if (!stored) {
@@ -213,7 +248,7 @@ export class WeatherService {
 
       const cache = JSON.parse(stored) as Partial<WeatherCache>;
       return (
-        cache.locationId === locationId &&
+        cache.locationKey === locationKey &&
         typeof cache.fetchedAt === 'number' &&
         Date.now() - cache.fetchedAt < cacheMaxAgeMs
       );
@@ -222,33 +257,49 @@ export class WeatherService {
     }
   }
 
-  private restoreLocationId(): WeatherLocationId {
+  private restoreDeviceLocation(): WeatherLocation | null {
     try {
       const stored = localStorage.getItem(this.locationStorageKey);
-      return this.isKnownLocationId(stored) ? stored : defaultLocationId;
+      if (!stored) {
+        return null;
+      }
+
+      const location = JSON.parse(stored) as Partial<CachedDeviceLocation>;
+      if (
+        typeof location.latitude !== 'number' ||
+        typeof location.longitude !== 'number' ||
+        typeof location.storedAt !== 'number' ||
+        Date.now() - location.storedAt > locationMaxAgeMs
+      ) {
+        return null;
+      }
+
+      return {
+        name: 'Current location',
+        latitude: location.latitude,
+        longitude: location.longitude,
+      };
     } catch {
-      return defaultLocationId;
+      return null;
     }
   }
 
-  private persistLocationId(locationId: WeatherLocationId): void {
+  private persistDeviceLocation(location: WeatherLocation): void {
     try {
-      localStorage.setItem(this.locationStorageKey, locationId);
+      const cachedLocation: CachedDeviceLocation = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        storedAt: Date.now(),
+      };
+
+      localStorage.setItem(this.locationStorageKey, JSON.stringify(cachedLocation));
     } catch {
       // Ignore storage failures; the current in-memory location still works.
     }
   }
 
-  private findLocation(locationId: WeatherLocationId): WeatherLocation {
-    return (
-      weatherLocations.find((location) => location.id === locationId) ??
-      weatherLocations.find((location) => location.id === defaultLocationId) ??
-      weatherLocations[0]
-    );
-  }
-
-  private isKnownLocationId(value: unknown): value is WeatherLocationId {
-    return weatherLocations.some((location) => location.id === value);
+  private locationKey(location: WeatherLocation): string {
+    return `${location.latitude.toFixed(3)},${location.longitude.toFixed(3)}`;
   }
 
   private describeWeather(code: number | undefined): string {

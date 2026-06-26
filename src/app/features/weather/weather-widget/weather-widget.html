@@ -1,11 +1,11 @@
 <section
   class="weather-widget glass-card min-w-36 rounded-sm px-3 py-2 text-white"
-  aria-label="Weather. Click to switch location."
+  aria-label="Weather. Click to refresh location."
   role="button"
   tabindex="0"
-  (click)="toggleLocation()"
-  (keydown.enter)="toggleLocation()"
-  (keydown.space)="$event.preventDefault(); toggleLocation()"
+  (click)="refreshLocation()"
+  (keydown.enter)="refreshLocation()"
+  (keydown.space)="$event.preventDefault(); refreshLocation()"
 >
   <div class="flex items-center gap-3">
     <i class="fa-solid text-2xl {{ iconClass() }}"></i>
@@ -16,14 +16,11 @@
         <div class="mt-1 text-xs leading-tight opacity-75">
           {{ condition() }} · feels {{ currentWeather.apparentTemperatureC }}°
         </div>
-        <div class="text-[0.68rem] leading-tight opacity-55">
-          {{ currentWeather.locationName }}
-        </div>
       </div>
     } @else {
       <div class="min-w-0 flex-1 text-right">
         <div class="text-sm font-semibold leading-tight">
-          {{ hasError() ? 'Weather unavailable' : 'Loading weather' }}
+          {{ hasError() ? 'Weather unavailable' : 'Locating weather' }}
         </div>
         <button
           type="button"

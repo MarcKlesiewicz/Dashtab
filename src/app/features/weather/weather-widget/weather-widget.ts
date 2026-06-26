@@ -19,7 +19,7 @@ export class WeatherWidget {
     this.weatherService.refreshNow();
   }
 
-  toggleLocation(): void {
-    this.weatherService.toggleLocation();
+  refreshLocation(): void {
+    this.weatherService.refreshNow();
   }
 }

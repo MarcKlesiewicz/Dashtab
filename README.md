@@ -1,59 +1,46 @@
-# Dashtab
+# DashTab
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+DashTab is a private Chrome extension that replaces the default New Tab page with a calm personal dashboard.
 
-## Development server
+It is built for quick daily orientation: check the time, see the weather, start a focus session, keep an eye on movement breaks, and track water intake without opening another app.
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- Large clock and personal greeting
+- Focus timer with a dedicated focus mode
+- Movement reminder for sitting and standing intervals
+- Water intake barometer with daily pacing
+- Weather widget with quick switching between Odense and Løgeskov
+- Local settings for timer preferences
+- Custom extension and tab icon
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Tech Stack
 
-## Code scaffolding
+- Angular
+- TypeScript
+- SCSS
+- Tailwind CSS and daisyUI
+- Chrome Extension Manifest V3
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Development
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Open `http://127.0.0.1:4200` while developing.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Build The Extension
 
 ```bash
-ng test
+npm run build
 ```
 
-## Running end-to-end tests
+Load the built extension from:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```text
+dist/dashtab/browser
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+In Chrome, open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select that folder.

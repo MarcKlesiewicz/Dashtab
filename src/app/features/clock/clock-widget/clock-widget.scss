@@ -1,0 +1,8 @@
+.clock-countdown--syncing > span {
+  transition: none;
+}
+
+.clock-countdown--syncing > span::before,
+.clock-countdown--syncing > span::after {
+  transition: none;
+}

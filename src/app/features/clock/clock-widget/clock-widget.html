@@ -1,4 +1,7 @@
-<span class="countdown text-[clamp(4.5rem,11vw,9.5rem)] font-semibold leading-none">
+<span
+  class="clock-countdown countdown text-[clamp(4.5rem,11vw,9.5rem)] font-semibold leading-none"
+  [class.clock-countdown--syncing]="isSyncing()"
+>
   <span [attr.style]="'--value:' + hours()" aria-label="{{ hours() }}" aria-live="polite"></span>
   :
   <span

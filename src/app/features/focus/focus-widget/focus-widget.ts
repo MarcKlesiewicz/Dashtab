@@ -5,6 +5,7 @@ import { FocusService } from '../focus-service';
   selector: 'app-focus-widget',
   imports: [],
   templateUrl: './focus-widget.html',
+  styleUrl: './focus-widget.scss',
 })
 export class FocusWidget {
   private readonly focusService = inject(FocusService);

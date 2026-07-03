@@ -5,7 +5,20 @@
 }
 
 .settings-panel__trigger {
-  @apply grid h-10 w-10 place-items-center;
+  @apply grid h-10 w-10 place-items-center rounded-sm text-white;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 220ms ease;
+}
+
+.settings-panel__trigger:hover,
+.settings-panel__trigger:focus-visible {
+  background: rgb(255 255 255 / 12%);
+  border-color: rgb(255 255 255 / 18%);
+  box-shadow: 0 10px 20px rgb(0 0 0 / 12%);
+  backdrop-filter: blur(10px);
+  transform: translateY(-1px);
 }
 
 .settings-panel__surface {

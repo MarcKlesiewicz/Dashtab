@@ -1,4 +1,4 @@
-.move-widget {
+.focus-widget {
   background: transparent;
   border: 1px solid transparent;
   backdrop-filter: blur(0);
@@ -11,8 +11,8 @@
     backdrop-filter 220ms ease;
 }
 
-.move-widget:hover,
-.move-widget:focus-visible {
+.focus-widget:hover,
+.focus-widget:focus-visible {
   background: rgb(255 255 255 / 12%);
   border-color: rgb(255 255 255 / 18%);
   box-shadow: 0 10px 20px rgb(0 0 0 / 12%);

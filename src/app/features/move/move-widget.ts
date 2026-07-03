@@ -11,7 +11,6 @@ export class MoveWidget {
 
   readonly phase = this.moveService.phase;
   readonly status = this.moveService.status;
-  readonly isActive = this.moveService.isActive;
   readonly isAwaitingAck = this.moveService.isAwaitingAck;
   readonly label = this.moveService.label;
   readonly actionLabel = this.moveService.actionLabel;
